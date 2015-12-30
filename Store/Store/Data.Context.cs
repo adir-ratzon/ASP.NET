@@ -28,5 +28,6 @@ namespace Store
         public virtual DbSet<Customer> CustomerSet { get; set; }
         public virtual DbSet<Product> ProductSet { get; set; }
         public virtual DbSet<Orders> OrdersSet { get; set; }
+        public virtual DbSet<Login> LoginSet { get; set; }
     }
 }

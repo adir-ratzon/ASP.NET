@@ -9,6 +9,7 @@
     <EntitySet Name="CustomerSet" EntityType="Data.Store.CustomerSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProductSet" EntityType="Data.Store.ProductSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="OrdersSet" EntityType="Data.Store.OrdersSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LoginSet" EntityType="Data.Store.LoginSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="OrdersProduct" Association="Data.Store.OrdersProduct">
       <End Role="Orders" EntitySet="OrdersSet" />
       <End Role="Product" EntitySet="ProductSet" />
@@ -45,6 +46,13 @@
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="CustomerId" Type="int" Nullable="true" />
     <Property Name="Product_SKU" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="LoginSet">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Username" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="OrdersProduct">
     <End Role="Orders" Type="Data.Store.OrdersSet" Multiplicity="*" />
@@ -86,6 +94,7 @@
             <End Role="Customer" EntitySet="CustomerSet" />
             <End Role="Orders" EntitySet="OrdersSet" />
           </AssociationSet>
+          <EntitySet Name="LoginSet" EntityType="Data.Login" />
         </EntityContainer>
         <EntityType Name="Customer">
           <Key>
@@ -133,6 +142,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Password" Type="String" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -166,6 +182,14 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LoginSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Data.Login)">
+        <MappingFragment StoreEntitySet="LoginSet">
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
