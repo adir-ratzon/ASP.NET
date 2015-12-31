@@ -24,9 +24,11 @@ namespace Store.Controllers
             LoginDAL logDAL = new LoginDAL();
 
             //! Testing in DB if has a match
-            var testLogin = logDAL.Logins.FirstOrDefault( user => (user.Username.Equals(currentLogin.UserName)) 
-                && (user.Password.Equals(currentLogin.Password)) 
+            var testLogin = logDAL.Logins.FirstOrDefault(
+                user => (user.UserName.Equals(currentLogin.UserName)) &&
+                (user.Password.Equals(currentLogin.Password))
                 );
+
 
             if (testLogin != null)
                 return View("AdminArea", currentLogin); //! Reffering to AdminArea page
