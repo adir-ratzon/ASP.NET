@@ -49,9 +49,10 @@
   </EntityType>
   <EntityType Name="LoginSet">
     <Key>
-      <PropertyRef Name="Username" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Username" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="OrdersProduct">
@@ -144,9 +145,10 @@
         </Association>
         <EntityType Name="Login">
           <Key>
-            <PropertyRef Name="Username" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Username" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" />
           <Property Name="Password" Type="String" Nullable="false" />
         </EntityType>
       </Schema>
@@ -188,6 +190,7 @@
     <EntitySetMapping Name="LoginSet">
       <EntityTypeMapping TypeName="IsTypeOf(Data.Login)">
         <MappingFragment StoreEntitySet="LoginSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Username" ColumnName="Username" />
           <ScalarProperty Name="Password" ColumnName="Password" />
         </MappingFragment>

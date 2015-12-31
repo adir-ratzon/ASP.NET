@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/30/2015 16:04:38
--- Generated from EDMX file: C:\Users\conta_000\Source\Repos\ASP.NET\Store\Store\Data.edmx
+-- Date Created: 12/31/2015 00:34:49
+-- Generated from EDMX file: C:\Users\dx\Source\Repos\ASP.NET\Store\Store\Data.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -20,6 +20,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_OrdersProduct]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OrdersSet] DROP CONSTRAINT [FK_OrdersProduct];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CustomerOrders]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OrdersSet] DROP CONSTRAINT [FK_CustomerOrders];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -33,6 +36,9 @@ IF OBJECT_ID(N'[dbo].[ProductSet]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[OrdersSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[OrdersSet];
+GO
+IF OBJECT_ID(N'[dbo].[LoginSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LoginSet];
 GO
 
 -- --------------------------------------------------
@@ -67,6 +73,14 @@ CREATE TABLE [dbo].[OrdersSet] (
 );
 GO
 
+-- Creating table 'LoginSet'
+CREATE TABLE [dbo].[LoginSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Username] nvarchar(max)  NOT NULL,
+    [Password] nvarchar(max)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -86,6 +100,12 @@ GO
 -- Creating primary key on [Id] in table 'OrdersSet'
 ALTER TABLE [dbo].[OrdersSet]
 ADD CONSTRAINT [PK_OrdersSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'LoginSet'
+ALTER TABLE [dbo].[LoginSet]
+ADD CONSTRAINT [PK_LoginSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

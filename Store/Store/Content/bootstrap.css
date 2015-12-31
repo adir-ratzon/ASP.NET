@@ -75,6 +75,14 @@ h1 {
   font-size: 2em;
 }
 
+.bigicon i {
+  font-size: 39px;
+}
+
+.center {
+    text-align: center;
+}
+
 abbr[title] {
   border-bottom: 1px dotted;
 }
@@ -6209,6 +6217,17 @@ body.modal-open,
 }
 
 .clearfix:after {
+  clear: both;
+}
+
+.hclearfix:before,
+.hclearfix:after {
+  display: table;
+  margin-top: 50px;
+  content: " ";
+}
+
+.hclearfix:after {
   clear: both;
 }
 
