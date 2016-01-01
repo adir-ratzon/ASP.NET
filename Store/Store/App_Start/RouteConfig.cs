@@ -15,6 +15,18 @@ namespace Store
             routes.IgnoreRoute("{resource}.config");
 
             routes.MapRoute(
+                name: "AddProductsForm",
+                url: "Admin/AddProducts/Form",
+                defaults: new { controller = "Admin", action = "AddProductsForm", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "AddProducts",
+                url: "Admin/AddProducts",
+                defaults: new { controller = "Admin", action = "AddProducts", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "AdminArea",
                 url: "Admin",
                 defaults: new { controller = "Admin", action = "AdminArea", id = UrlParameter.Optional }

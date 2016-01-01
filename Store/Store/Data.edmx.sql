@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/31/2015 00:34:49
+-- Date Created: 12/31/2015 20:17:58
 -- Generated from EDMX file: C:\Users\dx\Source\Repos\ASP.NET\Store\Store\Data.edmx
 -- --------------------------------------------------
 
@@ -56,11 +56,12 @@ GO
 
 -- Creating table 'ProductSet'
 CREATE TABLE [dbo].[ProductSet] (
-    [SKU] int IDENTITY(1,1) NOT NULL,
+    [SKU] int  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [Price] int  NOT NULL,
     [Quantity] int  NOT NULL,
-    [PicURL] nvarchar(max)  NOT NULL
+    [PicURL] nvarchar(max)  NULL,
+    [Id] int IDENTITY(1,1) NOT NULL
 );
 GO
 
@@ -69,7 +70,7 @@ CREATE TABLE [dbo].[OrdersSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Date] datetime  NOT NULL,
     [CustomerId] int  NULL,
-    [Product_SKU] int  NULL
+    [Product_Id] int  NULL
 );
 GO
 
@@ -91,10 +92,10 @@ ADD CONSTRAINT [PK_CustomerSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [SKU] in table 'ProductSet'
+-- Creating primary key on [Id] in table 'ProductSet'
 ALTER TABLE [dbo].[ProductSet]
 ADD CONSTRAINT [PK_ProductSet]
-    PRIMARY KEY CLUSTERED ([SKU] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [Id] in table 'OrdersSet'
@@ -113,18 +114,18 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [Product_SKU] in table 'OrdersSet'
+-- Creating foreign key on [Product_Id] in table 'OrdersSet'
 ALTER TABLE [dbo].[OrdersSet]
 ADD CONSTRAINT [FK_OrdersProduct]
-    FOREIGN KEY ([Product_SKU])
+    FOREIGN KEY ([Product_Id])
     REFERENCES [dbo].[ProductSet]
-        ([SKU])
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_OrdersProduct'
 CREATE INDEX [IX_FK_OrdersProduct]
 ON [dbo].[OrdersSet]
-    ([Product_SKU]);
+    ([Product_Id]);
 GO
 
 -- Creating foreign key on [CustomerId] in table 'OrdersSet'

@@ -24,14 +24,18 @@ namespace Store.Controllers
             LoginDAL logDAL = new LoginDAL();
 
             //! Testing in DB if has a match
-            var testLogin = logDAL.Logins.FirstOrDefault(
-                user => (user.UserName.Equals(currentLogin.UserName)) &&
-                (user.Password.Equals(currentLogin.Password))
-                );
-
+            var testLogin = logDAL.Logins.FirstOrDefault( user => 
+                (user.UserName.Equals(currentLogin.UserName)) &&
+                (user.Password.Equals(currentLogin.Password)) );
 
             if (testLogin != null)
-                return View("AdminArea", currentLogin); //! Reffering to AdminArea page
+            {
+                //! Lets keep the connection for farther use:
+                Session["currentConnection"] = currentLogin;
+
+                //! Reffering to AdminArea page
+                return View("AdminArea", currentLogin); 
+            }
             else
                 return View("Admin", currentLogin);
             
@@ -44,5 +48,54 @@ namespace Store.Controllers
                 return AdminArea(currentLogin);
             else return View("Admin", currentLogin);
         }
+
+        public ActionResult AddProducts()
+        {
+            //! Restricted for admin's only.
+            if (Session["currentConnection"] != null)
+            {
+                return View();
+            }
+            return View("Admin", new LoginModel());
+        }
+
+        public ActionResult AddProductForm(Product product)
+        {
+            //! Restricted for admin's only.
+            if (Session["currentConnection"] != null)
+            {
+                //! Here we Inserting products to DB
+                ProductDAL proDAL = new ProductDAL();
+
+                try
+                {
+                    proDAL.Products.Add(product);
+                    proDAL.SaveChanges();
+
+                    //! Case all fine, open user message.
+                    return View("ProductSuccessfulAdded");
+                }
+                catch (Exception e)
+                {
+                    return View("ProductProccessError");
+                }
+            } 
+            return View("Admin", new LoginModel());
+        }
+
+        public ActionResult EditProducts()
+        {
+            if (Session["currentConnection"] != null)
+            {
+                //! Only if logged in
+
+
+
+                return View();
+            }
+            //! Case not logged in
+            return View("Admin", new LoginModel());
+        }
+
 	}
 }

@@ -4,27 +4,28 @@
     ViewBag.Title = "Admin";
 }
 
-<h2>Admin</h2>
+<h2><i class="fa fa-cog"></i> Admin</h2>
 
 <div class="col-xs-12 hclearfix">
-    <div class="col-sm-3">
+    <div class="col-sm-1">
+        <div class="bigicon"><i class="fa fa-user"></i></div>
+    </div>
+
+    <div class="col-sm-4">
         <p>
             Dear User,<br />
             In order to access our store backend resource, you're requested to logon first. Please make sure you have the right logon details.
         </p>
     </div>
 
-    <div class="col-sm-9">
+    <div class="col-sm-7">
 
         <!-- Logon Form Start -->
-        <div class="bigicon"><i class="fa fa-user"></i></div>
-
         @using (Html.BeginForm("Logon", "Admin", FormMethod.Post)) { 
             <p>@Html.TextBoxFor(m => m.UserName) <span class="alert">@Html.ValidationMessageFor(x => x.UserName)</span></p>
             <p>@Html.TextBoxFor(m => m.Password) <span class="alert">@Html.ValidationMessageFor(x => x.Password)</span></p>
             <p><input type="submit" value="Login" /></p>
         }
-
         <!-- Logon Form Ends -->
     </div>
 </div>
