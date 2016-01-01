@@ -1,5 +1,6 @@
 ﻿using Store.DAL;
 using Store.Models;
+using Store.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,10 +89,27 @@ namespace Store.Controllers
             if (Session["currentConnection"] != null)
             {
                 //! Only if logged in
+                ProductDAL proDAL = new ProductDAL();
+                List<Product> pl = proDAL.Products.ToList<Product>();
 
+                ProductsViewModel pvm = new ProductsViewModel();
+                pvm.product = new Product();
+                pvm.products = pl;
 
+                return View(pvm);
+            }
+            //! Case not logged in
+            return View("Admin", new LoginModel());
+        }
 
-                return View();
+        public ActionResult SubmitProductsValues(List<Product> currentProducts)
+        {
+            if (Session["currentConnection"] != null)
+            {
+                //! Only if logged in
+                
+
+                return View("EditProducts", currentProducts);
             }
             //! Case not logged in
             return View("Admin", new LoginModel());
