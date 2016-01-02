@@ -232,6 +232,26 @@ table {
   border-spacing: 0;
 }
 
+.edit input[type="text"] {
+    width: 40px;
+}
+
+.eRow {
+    height: 32px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.et {
+    border-bottom: 1px solid #ccc;
+    background-color: #efefef;
+    margin-bottom:10px;
+}
+
+.et b {
+    line-height: 32px;
+}
+
 @media print {
   * {
     color: #000 !important;

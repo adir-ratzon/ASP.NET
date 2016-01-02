@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Store.Models;
 
-namespace Store.Models
+namespace Store
 {
     public class Product
     {

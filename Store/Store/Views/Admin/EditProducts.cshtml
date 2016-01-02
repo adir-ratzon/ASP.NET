@@ -1,4 +1,4 @@
-﻿@model Store.ViewModel.ProductsViewModel
+﻿@model Store.Models.ProductModel
 
 @{
     ViewBag.Title = "Edit Products";
@@ -6,6 +6,8 @@
 
 <h2><i class="fa fa-pencil-square-o"></i> Edit Products</h2>
 
+@using (Html.BeginForm("SubmitProductsValues", "Admin", FormMethod.Post))
+{
 <div class="col-xs-12 hclearfix edit">
     <div class="col-xs-2 eRow et"><b>Product SKU</b></div>
     <div class="col-xs-2 eRow et"><b>Product Name</b></div>
@@ -16,46 +18,27 @@
     <div class="col-xs-1 eRow et"><b>Remove?</b></div>
 
 
-    @foreach (Product obj in Model.products)
-{
+    @foreach (Product obj in Model.ProductsCollection)
+    {
     <div class="col-xs-2 eRow">@obj.SKU</div>
     <div class="col-xs-2 eRow">@obj.Name</div>
     <div class="col-xs-2 eRow">@obj.Price</div>
-    <div class="col-xs-2 eRow">@Html.TextBoxFor(m => m.product.Quantity, new { id = "Quantity", Value = @obj.Quantity })</div>
+    <div class="col-xs-2 eRow">@Html.TextBoxFor(m => m.oneProduct.Quantity, new { id = "Quantity", Value = @obj.Quantity })</div>
     <div class="col-xs-2 eRow">@obj.PicURL</div>
     <div class="col-xs-1 eRow">@obj.Id</div>
-    <div class="col-xs-1 eRow">@Html.CheckBox("s")</div>
-}
+    <div class="col-xs-1 eRow">@Html.CheckBox("remove")</div>
+    }
+    
     <div class="col-xs-12 eRow">
         <p class="left">
-            <button type="submit" onclick="updateProducts('@Model.products.ToList()');">Save Changes</button>
-        </>
+            <input type="submit" id="btnSubmit" value="Save Changes" />
+        </p>
 
         <p class="alert-danger right">
             @Html.ValidationSummary()
         </p>
     </div>
+
 </div>
+}
 
-<script>
-    function updateProducts(products) {
-
-        var args = {}
-
-        args.stock = products;
-
-        $.ajax({
-            type: "POST",
-            url: SubmitProductsValues,
-            contentType: "application/json; charset=utf-8",
-            data: args.stock,
-            dataType: "json",
-            success: function (msg) {
-                //! After the action was sent
-            
-                
-            }
-        });
-
-    }
-</script>
