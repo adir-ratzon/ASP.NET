@@ -8,6 +8,7 @@
 
 @using (Html.BeginForm("SubmitProductsValues", "Admin", FormMethod.Post))
 {
+
 <div class="col-xs-12 hclearfix edit">
     <div class="col-xs-2 eRow et"><b>Product SKU</b></div>
     <div class="col-xs-2 eRow et"><b>Product Name</b></div>
@@ -16,22 +17,40 @@
     <div class="col-xs-2 eRow et"><b>Product Picture</b></div>
     <div class="col-xs-1 eRow et"><b>pId</b></div>
     <div class="col-xs-1 eRow et"><b>Remove?</b></div>
-
-
-    @foreach (Product obj in Model.ProductsCollection)
+    @{int i = 0;}
+    @foreach (var p in Model.ProductsCollection)
     {
-    <div class="col-xs-2 eRow">@obj.SKU</div>
-    <div class="col-xs-2 eRow">@obj.Name</div>
-    <div class="col-xs-2 eRow">@obj.Price</div>
-    <div class="col-xs-2 eRow">@Html.TextBoxFor(m => m.oneProduct.Quantity, new { id = "Quantity", Value = @obj.Quantity })</div>
-    <div class="col-xs-2 eRow">@obj.PicURL</div>
-    <div class="col-xs-1 eRow">@obj.Id</div>
-    <div class="col-xs-1 eRow">@Html.CheckBox("remove")</div>
+    <div class="col-xs-2 eRow">@p.SKU</div>
+    <div class="col-xs-2 eRow">@p.Name</div>
+    <div class="col-xs-2 eRow">@p.Price</div>
+    <div class="col-xs-2 eRow"><input type="text" name="ProductsCollection[@i].Quantity" value="@p.Quantity" /></div>
+    <div class="col-xs-2 eRow">@p.PicURL</div>
+    <div class="col-xs-1 eRow">@p.Id</div>
+    <div class="col-xs-1 eRow"><input type="checkbox" name="ProductsCollection[@i].pExist" value="true" /></div>
+        //! pExist true => means product is about to remove farther
+    <input type="hidden" name="ProductsCollection[@i].SKU" value="@p.SKU" />
+    <input type="hidden" name="ProductsCollection[@i].Name" value="@p.Name" />
+    <input type="hidden" name="ProductsCollection[@i].Price" value="@p.Price" />
+    <input type="hidden" name="ProductsCollection[@i].PicURL" value="@p.PicURL" />
+    <input type="hidden" name="ProductsCollection[@i].Id" value="@p.Id" />
+        //! Counter
+        i++;
     }
     
+
+<script type="text/javascript">
+    function removeObj(Id, index) {
+        var c = $('#remove_' + Id).is(":checked");
+        if (c) {
+            
+        }
+    }
+</script>
+
+
     <div class="col-xs-12 eRow">
         <p class="left">
-            <input type="submit" id="btnSubmit" value="Save Changes" />
+            <input type="submit" id="btnSubmit" onclick="checkall()" value="Save Changes" />
         </p>
 
         <p class="alert-danger right">

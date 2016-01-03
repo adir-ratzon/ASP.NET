@@ -38,6 +38,7 @@
     <Property Name="Quantity" Type="int" Nullable="false" />
     <Property Name="PicURL" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="pExist" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="OrdersSet">
     <Key>
@@ -118,6 +119,7 @@
           <Property Name="Quantity" Type="Int32" Nullable="false" />
           <Property Name="PicURL" Type="String" Nullable="true" />
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pExist" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -178,6 +180,7 @@
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="PicURL" ColumnName="PicURL" />
+          <ScalarProperty Name="pExist" ColumnName="pExist" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

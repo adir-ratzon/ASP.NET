@@ -8,8 +8,8 @@ namespace Store.Models
 {
     public class ProductModel
     {
-        public Product oneProduct { get; set; }
+        public List<int> productsIds { get; set; }
 
-        public List<Product> ProductsCollection { get; set; }
+        public List<Products> ProductsCollection { get; set; }
     }
 }

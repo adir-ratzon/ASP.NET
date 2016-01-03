@@ -59,7 +59,7 @@ namespace Store.Controllers
             return View("Admin", new LoginModel());
         }
 
-        public ActionResult AddProductForm(Product product)
+        public ActionResult AddProductForm(Products product)
         {
             //! Restricted for admin's only.
             if (Session["currentConnection"] != null)
@@ -85,37 +85,49 @@ namespace Store.Controllers
 
         public ActionResult EditProducts()
         {
-            //if (Session["currentConnection"] != null)
-            //{
-                //! Only if logged in
-                ProductDAL proDAL = new ProductDAL();
-                List<Product> pl = proDAL.Products.ToList<Product>();
 
-                ProductModel productModel = new ProductModel();
-                productModel.oneProduct = new Product();
-                productModel.ProductsCollection = new List<Product>();
+            //! Pulling DATA from db using DbContext
+            var proDAL = new ProductDAL();
+            List<Products> pl = proDAL.Products.ToList<Products>();
 
+            ProductModel productModel = new ProductModel();
+            productModel.ProductsCollection = new List<Products>();
+            productModel.ProductsCollection = pl;
 
-                productModel.ProductsCollection.AddRange(pl);
+            return View("EditProducts", productModel);
 
-
-                return View("EditProducts", productModel);
-            //}
-            //! Case not logged in
-            //return View("Admin", new LoginModel());
         }
 
-        public ActionResult SubmitProductsValues(ProductModel currentProducts)
+        [HttpPost]
+        public ActionResult SubmitProductsValues(ProductModel productModel)
         {
-            if (Session["currentConnection"] != null)
+            //! Pulling DATA from db using DbContext
+            var proDAL = new ProductDAL();
+            
+            //! Loop through model.ProductsCollection 
+            foreach (var p in productModel.ProductsCollection)
             {
-                //! Only if logged in
+                //! Matching the current product
+                var query = proDAL.Products.FirstOrDefault(q=>q.Id == p.Id);
 
-
-                return View("SubmitProductsValues", currentProducts);
+                if (query != null)
+                {
+                    if (p.pExist != true)
+                    {
+                        query.Quantity = p.Quantity;
+                        proDAL.SaveChanges();
+                    }
+                    else
+                    {
+                        //! pExist True means it was mark to be remove
+                        query.pExist = false;
+                        proDAL.Products.Remove(query);
+                        proDAL.SaveChanges();
+                    }
+                }                
             }
-            //! Case not logged in
-            return View("Admin", new LoginModel());
+            //! Save and redirect
+            return View("SubmitProductsValues");
         }
 
 	}

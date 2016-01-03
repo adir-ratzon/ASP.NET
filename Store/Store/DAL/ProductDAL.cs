@@ -12,9 +12,9 @@ namespace Store.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Product>().ToTable("dbo.ProductSet");
+            modelBuilder.Entity<Products>().ToTable("dbo.ProductSet");
         }
 
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Products> Products { get; set; }
     }
 }

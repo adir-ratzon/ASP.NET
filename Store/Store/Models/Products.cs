@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using Store.Models;
 
-namespace Store
+namespace Store.Models
 {
-    public class Product
+    public class Products
     {
         [Key]
         public int Id { get; set; }
@@ -25,5 +25,7 @@ namespace Store
         public int Quantity { get; set; }
 
         public string PicURL { get; set; }
+
+        public bool pExist { get; set; }
     }
 }

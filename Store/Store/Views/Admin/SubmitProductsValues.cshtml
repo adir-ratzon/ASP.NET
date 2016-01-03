@@ -6,5 +6,22 @@
 <h2><i class="fa fa-upload"></i> Products Changed</h2>
 
 <div class="col-xs-12 hclearfix">
-    <p class="alert-success">Products was updated!</p>
+    <p class="alert-success">All Products changes was made successfully!</p>
+    <p><input type="button" id="btnRedirectE" value="Back Editing" /> 
+        <input type="button" id="btnRedirectA" value="Back to AdminArea" />
+    </p>
 </div>
+
+<script type="text/javascript">
+$(function(){
+  $("#btnRedirectE").click(function(){
+    window.location.href = "@Url.Action("EditProducts", "Admin")";
+  });
+});
+
+$(function(){
+  $("#btnRedirectA").click(function(){
+    window.location.href = "@Url.Action("AdminArea", "Admin")";
+  });
+});
+</script>
