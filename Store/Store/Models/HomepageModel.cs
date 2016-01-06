@@ -8,5 +8,9 @@ namespace Store.Models
     public class HomepageModel
     {
         public List<Products> ProductsCollection { get; set; }
+        public Products SingleProduct { get; set; }
+        public CustomerEntity CustomerEntity { get; set; }
+
+
     }
 }
