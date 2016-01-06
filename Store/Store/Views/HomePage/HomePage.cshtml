@@ -1,7 +1,22 @@
-﻿
+﻿@model Store.Models.HomepageModel
 @{
-    ViewBag.Title = "HomePage";
+    ViewBag.Title = "Home Page";
 }
 
-<h2>HomePage</h2>
+<h2>Let's do some shopping</h2>
 
+<div class="col-xs-12 hclearfix">
+    @foreach (var p in Model.ProductsCollection) {
+    <div class="col-xs-3 hproduct">
+        <div class="picture">
+            <img src="/PicData/@p.PicURL" title="@p.Name" />
+        </div>
+        <h3>@p.Name</h3>
+        <h4>&#8362;@p.Price</h4>
+
+        <p>
+            <button type="button" id="buynow" /> 
+        </p>
+    </div>
+    }
+</div>

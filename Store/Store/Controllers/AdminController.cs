@@ -2,6 +2,7 @@
 using Store.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -59,75 +60,100 @@ namespace Store.Controllers
             return View("Admin", new LoginModel());
         }
 
-        public ActionResult AddProductForm(Products product)
+        [HttpPost]
+        public ActionResult AddProductForm(ProductUploadModel obj)
         {
             //! Restricted for admin's only.
             if (Session["currentConnection"] != null)
             {
+                //! Files handle should be here:
+                if (obj.pic != null && obj.pic.ContentLength > 0)
+                {
+                    var path = "~/PicData/";
+                    var fname = "pic_" + obj.pr.Id + "_" + obj.pic.FileName;
+                    obj.pic.SaveAs(
+                        Path.Combine(
+                        Server.MapPath(path), fname));
+                    
+                    //! Setting picURL to be used farther
+                    obj.pr.PicURL = fname;
+                }
+
+
                 //! Here we Inserting products to DB
                 ProductDAL proDAL = new ProductDAL();
 
                 try
                 {
-                    proDAL.Products.Add(product);
+                    proDAL.Products.Add(obj.pr);
                     proDAL.SaveChanges();
 
                     //! Case all fine, open user message.
                     return View("ProductSuccessfulAdded");
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return View("ProductProccessError");
                 }
             } 
-            return View("Admin", new LoginModel());
+            else
+                return View("Admin", new LoginModel());
         }
 
         public ActionResult EditProducts()
         {
+            if (Session["currentConnection"] != null)
+            {
+                //! Pulling DATA from db using DbContext
+                var proDAL = new ProductDAL();
+                List<Products> pl = proDAL.Products.ToList<Products>();
 
-            //! Pulling DATA from db using DbContext
-            var proDAL = new ProductDAL();
-            List<Products> pl = proDAL.Products.ToList<Products>();
+                ProductModel productModel = new ProductModel();
+                productModel.ProductsCollection = new List<Products>();
+                productModel.ProductsCollection = pl;
 
-            ProductModel productModel = new ProductModel();
-            productModel.ProductsCollection = new List<Products>();
-            productModel.ProductsCollection = pl;
-
-            return View("EditProducts", productModel);
-
+                return View("EditProducts", productModel);
+            }
+            else
+                return View("Admin", new LoginModel());
         }
 
         [HttpPost]
         public ActionResult SubmitProductsValues(ProductModel productModel)
         {
-            //! Pulling DATA from db using DbContext
-            var proDAL = new ProductDAL();
-            
-            //! Loop through model.ProductsCollection 
-            foreach (var p in productModel.ProductsCollection)
+            if (Session["currentConnection"] != null)
             {
-                //! Matching the current product
-                var query = proDAL.Products.FirstOrDefault(q=>q.Id == p.Id);
+                //! Pulling DATA from db using DbContext
+                var proDAL = new ProductDAL();
 
-                if (query != null)
+                //! Loop through model.ProductsCollection 
+                foreach (var p in productModel.ProductsCollection)
                 {
-                    if (p.pExist != true)
+                    //! Matching the current product
+                    var query = proDAL.Products.FirstOrDefault(q => q.Id == p.Id);
+
+                    if (query != null)
                     {
-                        query.Quantity = p.Quantity;
-                        proDAL.SaveChanges();
+                        if (p.pExist != true)
+                        {
+                            query.Quantity = p.Quantity;
+                            proDAL.SaveChanges();
+                        }
+                        else
+                        {
+                            //! pExist True means it was mark to be remove
+                            query.pExist = false;
+                            proDAL.Products.Remove(query);
+                            proDAL.SaveChanges();
+                        }
                     }
-                    else
-                    {
-                        //! pExist True means it was mark to be remove
-                        query.pExist = false;
-                        proDAL.Products.Remove(query);
-                        proDAL.SaveChanges();
-                    }
-                }                
+                }
+                //! Save and redirect
+                return View("SubmitProductsValues");
             }
-            //! Save and redirect
-            return View("SubmitProductsValues");
+            else
+                return View("Admin", new LoginModel());
+            
         }
 
 	}

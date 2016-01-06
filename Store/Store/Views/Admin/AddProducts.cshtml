@@ -1,4 +1,4 @@
-﻿@model Store.Models.Products
+﻿@model Store.Models.ProductUploadModel
 
 @{
     ViewBag.Title = "Add Products";
@@ -7,37 +7,37 @@
 <h2><i class="fa fa-upload"></i> Add Products</h2>
 
 <div class="col-xs-12 hclearfix">
-    @using (Html.BeginForm("AddProductForm", "Admin", FormMethod.Post))
+    @using (Html.BeginForm("AddProductForm", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
     <div class="col-xs-2">
         <label>Product SKU</label>
     </div>
     <div class="col-xs-10">
-        <p>@Html.TextBoxFor(m => m.SKU) <span class="alert">@Html.ValidationMessageFor(x => x.SKU)</span></p>
+        <p>@Html.TextBoxFor(m => m.pr.SKU) <span class="alert">@Html.ValidationMessageFor(x => x.pr.SKU)</span></p>
     </div>
     <div class="col-xs-2">
         <label>Product Name</label>
     </div>
     <div class="col-xs-10">
-        <p>@Html.TextBoxFor(m => m.Name) <span class="alert">@Html.ValidationMessageFor(x => x.Name)</span></p>
+        <p>@Html.TextBoxFor(m => m.pr.Name) <span class="alert">@Html.ValidationMessageFor(x => x.pr.Name)</span></p>
     </div>
     <div class="col-xs-2">
         <label>Product Price</label>
     </div>
     <div class="col-xs-10">       
-        <p>@Html.TextBoxFor(m => m.Price) <span class="alert">@Html.ValidationMessageFor(x => x.Price)</span></p>
+        <p>@Html.TextBoxFor(m => m.pr.Price) <span class="alert">@Html.ValidationMessageFor(x => x.pr.Price)</span></p>
     </div>
     <div class="col-xs-2">
         <label>Product Stock</label>
     </div>
     <div class="col-xs-10"> 
-        <p>@Html.TextBoxFor(m => m.Quantity) <span class="alert">@Html.ValidationMessageFor(x => x.Quantity)</span></p>
+        <p>@Html.TextBoxFor(m => m.pr.Quantity) <span class="alert">@Html.ValidationMessageFor(x => x.pr.Quantity)</span></p>
     </div>
     <div class="col-xs-2">
         <label>Product Picture</label>
     </div>
     <div class="col-xs-10"> 
-        <p>@Html.TextBoxFor(m => m.PicURL) <span class="alert">@Html.ValidationMessageFor(x => x.PicURL)</span></p>
+        <p><input type="file" name="pic" id="pic" /> </p>
     </div>
     <div class="col-xs-2">
         <label></label>
@@ -45,5 +45,5 @@
     <div class="col-xs-10"> 
         <p><input type="submit" value="Upload" /></p>
     </div>
-        }
+    }
 </div>

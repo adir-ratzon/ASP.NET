@@ -393,6 +393,11 @@ img {
   border-radius: 6px;
 }
 
+div.eRow img {
+  border-radius: 6px;
+  height: 30px;
+}
+
 .img-thumbnail {
   display: inline-block;
   height: auto;
@@ -6852,4 +6857,24 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+}
+
+/* Responsive fixes */
+.hproduct {
+    min-width:200px;
+    margin-bottom: 25px;
+}
+
+.hproduct div.picture {
+    min-height:200px;
+    text-align: center;
+}
+
+.hproduct div.picture img {
+    max-width: 200px;
+}
+
+.hproduct h3,
+.hproduct h4 {
+    text-align: center;
 }

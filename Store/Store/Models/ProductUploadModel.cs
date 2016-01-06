@@ -6,9 +6,10 @@ using Store.Models;
 
 namespace Store.Models
 {
-    public class ProductModel
+    public class ProductUploadModel
     {
-        public List<Products> ProductsCollection { get; set; }
+        public Products pr { get; set; }
+        public HttpPostedFileBase  pic { get; set; }
 
     }
 }
