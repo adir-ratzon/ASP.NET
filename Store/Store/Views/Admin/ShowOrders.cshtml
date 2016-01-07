@@ -1,0 +1,28 @@
+﻿@model Store.Models.ShowOrdersModel
+
+@{
+    ViewBag.Title = "My Customer Orders";
+}
+
+<h2><i class="fa fa-money"></i> Orders</h2>
+
+    <div class="col-xs-12 hclearfix edit">
+        <div class="col-xs-2 eRow et"><b>Order Id</b></div>
+        <div class="col-xs-2 eRow et"><b>Order Date</b></div>
+        <div class="col-xs-3 eRow et"><b>Customer Name</b></div>
+        <div class="col-xs-3 eRow et"><b>Product Name</b></div>
+        <div class="col-xs-2 eRow et"><b>Order Price</b></div>
+
+        @foreach (var p in Model.Orders)
+        {
+            <div class="col-xs-2 eRow">@p.Id</div>
+            <div class="col-xs-2 eRow">@p.Date</div>
+            <div class="col-xs-3 eRow">@p.CustomerName</div>
+            <div class="col-xs-3 eRow">@p.ProductName</div>
+            <div class="col-xs-2 eRow">@p.ProductPrice</div>
+        }
+
+        <div class="col-xs-12 eRow">
+
+        </div>
+    </div>

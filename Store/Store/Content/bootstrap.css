@@ -6927,3 +6927,25 @@ td.visible-print {
 .hproduct h4 {
     text-align: center;
 }
+
+/*Order*/
+div.hproduct div.center div[class^="order"] {
+    position: absolute;
+    z-index: 9999;
+    background: rgba(109, 109, 109, 0.72);
+    padding: 10% 8% 8% 8%;
+    left: 60px;
+    display: none;
+}
+
+div.hproduct div.center div[class^="order"] a.close {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    color: rgb(0, 0, 0);
+}
+
+#text2::-webkit-input-placeholder::before {
+    color:#666;
+    content:"Line 1\A Line 2\A Line 3\A";
+}

@@ -194,12 +194,15 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CustomerEntity.cs" />
+    <Compile Include="Models\DetailedOrder.cs" />
     <Compile Include="Models\HomepageModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\Products.cs" />
     <Compile Include="Models\ProductUploadModel.cs" />
+    <Compile Include="Models\ShowOrdersModel.cs" />
     <Compile Include="Orders.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
@@ -247,6 +250,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.8.2.min.js" />
+    <Content Include="Scripts\jquery.popupoverlay.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -274,6 +279,9 @@
     <Content Include="Views\Admin\ProductProcessError.cshtml" />
     <Content Include="Views\Admin\EditProducts.cshtml" />
     <Content Include="Views\Admin\SubmitProductsValues.cshtml" />
+    <Content Include="Views\HomePage\OrderCompleted.cshtml" />
+    <Content Include="Views\HomePage\OrderFaild.cshtml" />
+    <Content Include="Views\Admin\ShowOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

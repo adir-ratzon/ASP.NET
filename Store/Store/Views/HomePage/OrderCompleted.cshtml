@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Successfull Order";
+}
+
+<h2>Order Succeeded</h2>
+
+<div class="col-xs-12 hclearfix">
+    <p class="success">Your order placed successfully.</p>
+    <p><input type="button" id="btnRedirect" value="Back" /></p>
+</div>
+
+
+<script type="text/javascript">
+$(function(){
+  $("#btnRedirect").click(function(){
+    window.location.href = "@Url.Action("Index", "HomePage")";
+  });
+});
+</script>

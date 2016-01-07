@@ -5,18 +5,49 @@
 
 <h2>Let's do some shopping</h2>
 
-<div class="col-xs-12 hclearfix">
-    @foreach (var p in Model.ProductsCollection) {
-    <div class="col-xs-3 hproduct">
-        <div class="picture">
-            <img src="/PicData/@p.PicURL" title="@p.Name" />
-        </div>
-        <h3>@p.Name</h3>
-        <h4>&#8362;@p.Price</h4>
+<div class="col-xs-12 hclearfix container">
+    @{ int i = 0; }
+    @foreach (var p in Model.ProductsCollection)
+    {
+        <div class="col-xs-3 hproduct">
+            <div class="picture">
+                <img src="/PicData/@p.PicURL" title="@p.Name" />
+            </div>
+            <h3>@p.Name</h3>
+            <h4>&#8362;@p.Price</h4>
 
-        <p class="center">
-            <input type="button" id="buy_@p.Id" value="Buy Now" class="buynow" /> 
-        </p>
-    </div>
-    }
+            <div class="center">
+                <div class="order_@p.Id">
+                    <a href="#" class="close">
+                        <i class="fa fa-times"></i>
+                    </a>
+                    @using (Html.BeginForm("PlaceOrder", "HomePage", FormMethod.Post))
+                    {
+                        <p>@Html.TextBoxFor(m => m.CustomerEntity.Name, new { placeholder = "Your Name" })</p>
+                        <p>@Html.TextBoxFor(m => m.CustomerEntity.Address, new { placeholder = "Address" })</p>
+                        <p>@Html.TextBoxFor(m => m.CustomerEntity.Email, new { placeholder = "Email" })</p>
+
+                        <input type="hidden" name="SingleProduct.Id" value="@p.Id" /><input type="hidden" name="SingleProduct.Name" value="@p.Name" /><input type="hidden" name="SingleProduct.pExist" value="@p.pExist" /><input type="hidden" name="SingleProduct.PicURL" value="@p.PicURL" /><input type="hidden" name="SingleProduct.Price" value="@p.Price" /><input type="hidden" name="SingleProduct.Quantity" value="@p.Quantity" /><input type="hidden" name="SingleProduct.SKU" value="@p.SKU" />
+
+                        <button type="submit" class="buynow">Place an Order</button>
+                    }
+                </div>
+                <button class="byclick buynow" id="@p.Id">Buy Now</button>
+            </div>
+        </div>
+            i++;
+    }    
 </div>
+
+<script>
+    $(".byclick").click(function () {
+        var Id = this.id;
+        $(".order_" + Id).slideDown("slow");
+        $("button#" + Id).css("visibility", "hidden");
+
+        $(".order_" + Id + " a.close").click(function () {
+            $(this).closest(".order_" + Id).slideUp("fast");
+            $("button#" + Id).css("visibility", "visible");
+        });
+    });
+</script>

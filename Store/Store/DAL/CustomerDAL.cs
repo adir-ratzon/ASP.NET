@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Store.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace Store.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Customer>().ToTable("dbo.CustomerSet");
+            modelBuilder.Entity<CustomerEntity>().ToTable("dbo.CustomerSet");
         }
 
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<CustomerEntity> Customers { get; set; }
     }
 }

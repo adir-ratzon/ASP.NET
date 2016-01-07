@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Order Faild";
+}
+
+<h2>Order Faild</h2>
+
+<div class="col-xs-12 hclearfix">
+    <p class="alert-warning">
+        Ooops, We sorry, but your order has faild, probably due to DB issues.<br />
+        Please try again to place your order.
+    </p>
+    <p><input type="button" id="btnRedirect" value="Back" /></p>
+</div>
+
+
+<script type="text/javascript">
+$(function(){
+  $("#btnRedirect").click(function(){
+    window.location.href = "@Url.Action("Index", "HomePage")";
+  });
+});
+</script>

@@ -15,6 +15,7 @@ namespace Store.Controllers
         // GET: /Admin/
         public ActionResult Admin()
         {
+
             //! Reffering to login page
             return View(new LoginModel());
         }
@@ -153,8 +154,50 @@ namespace Store.Controllers
             }
             else
                 return View("Admin", new LoginModel());
-            
         }
+
+        public ActionResult ShowOrders(ShowOrdersModel model)
+        {
+            if (Session["currentConnection"] == null)
+                return View("Admin", new LoginModel());
+
+            /*
+             * Creating the DB Connection for the orders view.
+             **/
+
+            var orderDAL = new OrderDAL();
+            var productDAL = new ProductDAL();
+            var customerDAL = new CustomerDAL();
+
+            model.Orders = new List<DetailedOrder>();
+
+            List<Order> orders = orderDAL.Order.ToList<Order>();
+
+            foreach (var order in orders)
+            {
+                var currentCustomer = customerDAL.Customers.FirstOrDefault(
+                    cust=>cust.Id == order.CustomerId);
+                var currentProduct = productDAL.Products.FirstOrDefault(
+                    prod=>prod.Id == order.Product_Id);
+
+                var viewOrder = new DetailedOrder();
+                
+                /**
+                 * Setting the viewOrder list to be viewed.
+                 **/
+                
+                viewOrder.Id = order.Id;
+                viewOrder.Date = order.Date;
+                viewOrder.CustomerName = currentCustomer.Name;
+                viewOrder.ProductName = currentProduct.Name;
+                viewOrder.ProductPrice = currentProduct.Price;
+
+                model.Orders.Add(viewOrder);
+            }
+            return View("ShowOrders", model);
+        }
+
+
 
 	}
 }
