@@ -6305,6 +6305,18 @@ div.hproduct p input.buynow {
   clear: both;
 }
 
+.iclearfix:before,
+.iclearfix:after {
+  display: table;
+  margin-top: 20px;
+  content: " ";
+}
+
+.iclearfix:after {
+  clear: both;
+}
+
+
 .pull-right {
   float: right !important;
 }

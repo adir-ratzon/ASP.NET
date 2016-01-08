@@ -3,10 +3,31 @@
     ViewBag.Title = "Home Page";
 }
 
-<h2>Let's do some shopping</h2>
+<div class="col-xs-12 iclearfix">
+    <div class="col-xs-6 left">
+        @using (Html.BeginForm("SearchFor", "HomePage", FormMethod.Post))
+        {
+            @Html.TextBoxFor(m=>m.SingleProduct.Name) 
+            <input type="submit" id="submit" value="Search" />
+        }
+    </div>
+
+    <div class="col-xs-6 right">
+        <div class="search">
+
+        </div>
+    </div>
+</div>
 
 <div class="col-xs-12 hclearfix container">
-    @{ int i = 0; }
+
+    @if (Model.ProductsCollection.Count <= 0)
+    {
+        <text>
+        <h2>We're sorry, but there isn't any records to display :(</h2>
+        </text>
+    }
+
     @foreach (var p in Model.ProductsCollection)
     {
         <div class="col-xs-3 hproduct">
@@ -35,7 +56,6 @@
                 <button class="byclick buynow" id="@p.Id">Buy Now</button>
             </div>
         </div>
-            i++;
     }    
 </div>
 
@@ -50,4 +70,5 @@
             $("button#" + Id).css("visibility", "visible");
         });
     });
+
 </script>

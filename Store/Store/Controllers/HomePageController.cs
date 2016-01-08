@@ -12,8 +12,12 @@ namespace Store.Controllers
     {
         //
         // GET: /HomePage/
-        public ActionResult Index()
+        public ActionResult Index(HomepageModel hpm)
         {
+
+            if (hpm.ProductsCollection != null) 
+                return View("HomePage", hpm);
+
             /*
              * Creating the DB Connection for the homepage products view.
              * */
@@ -27,6 +31,23 @@ namespace Store.Controllers
             homepageModel.ProductsCollection = pl;
 
             return View("HomePage", homepageModel);
+        }
+
+        [HttpPost]
+        public ActionResult SearchFor(HomepageModel searchfor)
+        {
+
+            var proDAL = new ProductDAL();
+            List<Products> pl = proDAL.Products.Where(
+                entity => entity.Name.Contains(searchfor.SingleProduct.Name)).ToList<Products>();
+
+            //! Creating the Model which will be used later on.
+            searchfor = new HomepageModel();
+
+            searchfor.ProductsCollection = new List<Products>();
+            searchfor.ProductsCollection = pl;
+
+            return View("HomePage", searchfor);
         }
 
         [HttpPost]

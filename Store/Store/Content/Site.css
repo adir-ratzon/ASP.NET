@@ -26,7 +26,7 @@ textarea {
 }
 
 input.input-validation-error {
-    border: 1px solid #b94a48;
+    border: 2px solid #F7908F;
 }
 
 input[type="checkbox"].input-validation-error {

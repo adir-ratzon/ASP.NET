@@ -14,6 +14,13 @@ namespace Store
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("{resource}.config");
 
+
+            routes.MapRoute(
+                name: "SearchFor",
+                url: "filtered",
+                defaults: new { controller = "HomePage", action = "SearchFor", id = UrlParameter.Optional }
+            );
+
             routes.MapRoute(
                 name: "ShowAllOrders",
                 url: "Admin/Orders",
