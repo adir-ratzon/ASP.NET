@@ -195,6 +195,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CustomerEntity.cs" />
     <Compile Include="Models\DetailedOrder.cs" />
+    <Compile Include="Models\FilterByPrice.cs" />
     <Compile Include="Models\HomepageModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -215,6 +216,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\logo.png" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="Data.edmx.sql" />
     <Content Include="favicon.ico" />

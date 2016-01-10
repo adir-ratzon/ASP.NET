@@ -36,7 +36,6 @@ namespace Store.Controllers
         [HttpPost]
         public ActionResult SearchFor(HomepageModel searchfor)
         {
-
             var proDAL = new ProductDAL();
             List<Products> pl = proDAL.Products.Where(
                 entity => entity.Name.Contains(searchfor.SingleProduct.Name)).ToList<Products>();
@@ -48,6 +47,29 @@ namespace Store.Controllers
             searchfor.ProductsCollection = pl;
 
             return View("HomePage", searchfor);
+        }
+
+        [HttpPost]
+        public ActionResult FilterByPrice(HomepageModel hpm)
+        {
+            /*
+             * Filtering by price is an option to filter the products at the homepage
+             * by the lower and upper price bound.
+             * */
+            var proDAL = new ProductDAL();
+
+            //! Getting the products which stands with the conditions.
+            List<Products>  pl = proDAL.Products.Where(
+            entity => (entity.Price >= hpm.Pricing.lower) &&
+                (entity.Price <= hpm.Pricing.upper)).ToList<Products>();
+
+            //! Creating the Model which will be used later on.
+            hpm = new HomepageModel();
+
+            hpm.ProductsCollection = new List<Products>();
+            hpm.ProductsCollection = pl;
+
+            return View("HomePage", hpm);
         }
 
         [HttpPost]

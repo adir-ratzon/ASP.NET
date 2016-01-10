@@ -8,13 +8,18 @@
         @using (Html.BeginForm("SearchFor", "HomePage", FormMethod.Post))
         {
             @Html.TextBoxFor(m=>m.SingleProduct.Name) 
-            <input type="submit" id="submit" value="Search" />
+            <input type="submit" value="Search" />
         }
     </div>
 
     <div class="col-xs-6 right">
-        <div class="search">
-
+        <div class="price-filter">
+        @using (Html.BeginForm("FilterByPrice", "HomePage", FormMethod.Post))
+        {
+            <b>Filter by Price:</b> <span>Items from</span> 
+            @Html.TextBoxFor(m=>m.Pricing.lower) <span>up to</span> @Html.TextBoxFor(m=>m.Pricing.upper)
+            <input type="submit" value="Filter" />
+        }
         </div>
     </div>
 </div>
@@ -49,7 +54,6 @@
                         <p>@Html.TextBoxFor(m => m.CustomerEntity.Email, new { placeholder = "Email" })</p>
 
                         <input type="hidden" name="SingleProduct.Id" value="@p.Id" /><input type="hidden" name="SingleProduct.Name" value="@p.Name" /><input type="hidden" name="SingleProduct.pExist" value="@p.pExist" /><input type="hidden" name="SingleProduct.PicURL" value="@p.PicURL" /><input type="hidden" name="SingleProduct.Price" value="@p.Price" /><input type="hidden" name="SingleProduct.Quantity" value="@p.Quantity" /><input type="hidden" name="SingleProduct.SKU" value="@p.SKU" />
-
                         <button type="submit" class="buynow">Place an Order</button>
                     }
                 </div>
@@ -70,5 +74,4 @@
             $("button#" + Id).css("visibility", "visible");
         });
     });
-
 </script>

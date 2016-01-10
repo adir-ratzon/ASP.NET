@@ -16,8 +16,14 @@ namespace Store
 
 
             routes.MapRoute(
-                name: "SearchFor",
+                name: "FilterByPrice",
                 url: "filtered",
+                defaults: new { controller = "HomePage", action = "FilterByPrice", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "SearchFor",
+                url: "results",
                 defaults: new { controller = "HomePage", action = "SearchFor", id = UrlParameter.Optional }
             );
 

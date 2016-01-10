@@ -4058,7 +4058,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   z-index: 1000;
-  min-height: 50px;
+  min-height: 60px;
   margin-bottom: 20px;
   border: 1px solid transparent;
 }
@@ -4306,7 +4306,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 @media (min-width: 768px) {
   .navbar-nav {
-    float: left;
+    float: right;
     margin: 0;
   }
   .navbar-nav > li {
@@ -6316,6 +6316,9 @@ div.hproduct p input.buynow {
   clear: both;
 }
 
+.price-filter {
+  text-align: right;
+}
 
 .pull-right {
   float: right !important;

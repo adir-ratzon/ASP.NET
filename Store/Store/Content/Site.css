@@ -40,3 +40,11 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+.navbar-brand {
+    width: 91px;
+    height: 36px;
+    background: url('../Content/logo.png') no-repeat;
+    text-indent: -99999px;
+    margin-top: 10px;
+}

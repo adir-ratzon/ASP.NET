@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Store.Controllers
 {
@@ -13,15 +14,38 @@ namespace Store.Controllers
     {
         //
         // GET: /Admin/
+
         public ActionResult Admin()
         {
+            if (Request.Cookies["cookie"] != null)
+            {
+                LoginModel AuthUser = new LoginModel();
+                AuthUser.UserName = "Authorized";
 
-            //! Reffering to login page
+                return View("AdminArea", AuthUser);
+            }
+
+            //! in-case there isn't cookie reffer to login page
             return View(new LoginModel());
         }
 
         public ActionResult AdminArea(LoginModel currentLogin)
         {
+            //! Case Logeedin already
+            if (Request.Cookies["cookie"] != null)
+            {
+                if (currentLogin == null)
+                {
+                    LoginModel AuthUser = new LoginModel();
+                    AuthUser.UserName = "Authorized";
+                    currentLogin = AuthUser;
+
+                    return View("AdminArea", currentLogin);
+                }
+                else return View("AdminArea", currentLogin);
+            }
+
+
             //! Verifying the currentLogin details.
             LoginDAL logDAL = new LoginDAL();
 
@@ -32,15 +56,14 @@ namespace Store.Controllers
 
             if (testLogin != null)
             {
-                //! Lets keep the connection for farther use:
-                Session["currentConnection"] = currentLogin;
+                //! Lets set a cookie for successful connection
+                FormsAuthentication.SetAuthCookie("cookie", true);
 
                 //! Reffering to AdminArea page
                 return View("AdminArea", currentLogin); 
             }
             else
                 return View("Admin", currentLogin);
-            
         }
 
         [HttpPost]
@@ -51,116 +74,98 @@ namespace Store.Controllers
             else return View("Admin", currentLogin);
         }
 
+        [Authorize]
         public ActionResult AddProducts()
         {
-            //! Restricted for admin's only.
-            if (Session["currentConnection"] != null)
-            {
-                return View();
-            }
-            return View("Admin", new LoginModel());
+            return View();
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult AddProductForm(ProductUploadModel obj)
         {
-            //! Restricted for admin's only.
-            if (Session["currentConnection"] != null)
+            //! Files handle should be here:
+            if (obj.pic != null && obj.pic.ContentLength > 0)
             {
-                //! Files handle should be here:
-                if (obj.pic != null && obj.pic.ContentLength > 0)
-                {
-                    var path = "~/PicData/";
-                    var fname = "pic_" + obj.pr.Id + "_" + obj.pic.FileName;
-                    obj.pic.SaveAs(
-                        Path.Combine(
-                        Server.MapPath(path), fname));
-                    
-                    //! Setting picURL to be used farther
-                    obj.pr.PicURL = fname;
-                }
+                var path = "~/PicData/";
+                var fname = "pic_" + obj.pr.Id + "_" + obj.pic.FileName;
+                obj.pic.SaveAs(
+                    Path.Combine(
+                    Server.MapPath(path), fname));
+
+                //! Setting picURL to be used farther
+                obj.pr.PicURL = fname;
+            }
 
 
-                //! Here we Inserting products to DB
-                ProductDAL proDAL = new ProductDAL();
+            //! Here we Inserting products to DB
+            ProductDAL proDAL = new ProductDAL();
 
-                try
-                {
-                    proDAL.Products.Add(obj.pr);
-                    proDAL.SaveChanges();
+            try
+            {
+                proDAL.Products.Add(obj.pr);
+                proDAL.SaveChanges();
 
-                    //! Case all fine, open user message.
-                    return View("ProductSuccessfulAdded");
-                }
-                catch (Exception)
-                {
-                    return View("ProductProccessError");
-                }
-            } 
-            else
-                return View("Admin", new LoginModel());
+                //! Case all fine, open user message.
+                return View("ProductSuccessfulAdded");
+            }
+            catch (Exception)
+            {
+                return View("ProductProccessError");
+            }
         }
 
+        [Authorize]
         public ActionResult EditProducts()
         {
-            if (Session["currentConnection"] != null)
-            {
-                //! Pulling DATA from db using DbContext
-                var proDAL = new ProductDAL();
-                List<Products> pl = proDAL.Products.ToList<Products>();
 
-                ProductModel productModel = new ProductModel();
-                productModel.ProductsCollection = new List<Products>();
-                productModel.ProductsCollection = pl;
+            //! Pulling DATA from db using DbContext
+            var proDAL = new ProductDAL();
+            List<Products> pl = proDAL.Products.ToList<Products>();
 
-                return View("EditProducts", productModel);
-            }
-            else
-                return View("Admin", new LoginModel());
+            ProductModel productModel = new ProductModel();
+            productModel.ProductsCollection = new List<Products>();
+            productModel.ProductsCollection = pl;
+
+            return View("EditProducts", productModel);
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult SubmitProductsValues(ProductModel productModel)
         {
-            if (Session["currentConnection"] != null)
+            //! Pulling DATA from db using DbContext
+            var proDAL = new ProductDAL();
+
+            //! Loop through model.ProductsCollection 
+            foreach (var p in productModel.ProductsCollection)
             {
-                //! Pulling DATA from db using DbContext
-                var proDAL = new ProductDAL();
+                //! Matching the current product
+                var query = proDAL.Products.FirstOrDefault(q => q.Id == p.Id);
 
-                //! Loop through model.ProductsCollection 
-                foreach (var p in productModel.ProductsCollection)
+                if (query != null)
                 {
-                    //! Matching the current product
-                    var query = proDAL.Products.FirstOrDefault(q => q.Id == p.Id);
-
-                    if (query != null)
+                    if (p.pExist != true)
                     {
-                        if (p.pExist != true)
-                        {
-                            query.Quantity = p.Quantity;
-                            proDAL.SaveChanges();
-                        }
-                        else
-                        {
-                            //! pExist True means it was mark to be remove
-                            query.pExist = false;
-                            proDAL.Products.Remove(query);
-                            proDAL.SaveChanges();
-                        }
+                        query.Quantity = p.Quantity;
+                        proDAL.SaveChanges();
+                    }
+                    else
+                    {
+                        //! pExist True means it was mark to be remove
+                        query.pExist = false;
+                        proDAL.Products.Remove(query);
+                        proDAL.SaveChanges();
                     }
                 }
-                //! Save and redirect
-                return View("SubmitProductsValues");
             }
-            else
-                return View("Admin", new LoginModel());
+            //! Save and redirect
+            return View("SubmitProductsValues");
         }
 
+        [Authorize]
         public ActionResult ShowOrders(ShowOrdersModel model)
         {
-            if (Session["currentConnection"] == null)
-                return View("Admin", new LoginModel());
-
             /*
              * Creating the DB Connection for the orders view.
              **/
@@ -196,8 +201,5 @@ namespace Store.Controllers
             }
             return View("ShowOrders", model);
         }
-
-
-
 	}
 }

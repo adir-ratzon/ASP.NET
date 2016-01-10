@@ -26,6 +26,23 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    @if (Request.Cookies["cookie"] != null)
+                    {
+                    <text>
+                    <li>
+                        <a href="/Admin" title="goto AdminArea">Admin Area</a>
+                    </li>
+                    </text>
+                        //! SignOut Option if thereis
+                    }
+                    else
+                    {
+                    <text>
+                       <li>
+                           <a href="/login" title="login">Sign in</a>
+                       </li>
+                    </text>
+                    }
                 </ul>
             </div>
         </div>

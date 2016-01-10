@@ -10,7 +10,6 @@ namespace Store.Models
         public List<Products> ProductsCollection { get; set; }
         public Products SingleProduct { get; set; }
         public CustomerEntity CustomerEntity { get; set; }
-
-
+        public FilterByPrice Pricing { get; set; }
     }
 }
