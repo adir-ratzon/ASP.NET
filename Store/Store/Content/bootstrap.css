@@ -5072,6 +5072,8 @@ a.thumbnail:focus {
   color: #468847;
   background-color: #dff0d8;
   border-color: #d6e9c6;
+  padding: 5px;
+  font-size: 16px;
 }
 
 .alert-success hr {
@@ -5086,6 +5088,8 @@ a.thumbnail:focus {
   color: #3a87ad;
   background-color: #d9edf7;
   border-color: #bce8f1;
+  padding: 5px;
+  font-size: 16px;
 }
 
 .alert-info hr {
@@ -5100,6 +5104,8 @@ a.thumbnail:focus {
   color: #c09853;
   background-color: #fcf8e3;
   border-color: #fbeed5;
+  padding: 5px;
+  font-size: 16px;
 }
 
 .alert-warning hr {
@@ -5114,6 +5120,8 @@ a.thumbnail:focus {
   color: #b94a48;
   background-color: #f2dede;
   border-color: #eed3d7;
+  padding: 5px;
+  font-size: 16px;
 }
 
 .alert-danger hr {
@@ -6926,7 +6934,12 @@ td.visible-print {
 /* Responsive fixes */
 .hproduct {
     min-width:200px;
+    min-height: 370px;
     margin-bottom: 55px;
+}
+
+.hproduct h3 {
+    min-height: 52px;
 }
 
 .hproduct div.picture {

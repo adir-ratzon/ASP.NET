@@ -105,7 +105,23 @@ namespace Store.Controllers
         [Authorize]
         public ActionResult AddProductForm(ProductUploadModel obj)
         {
-            //! Files handle should be here:
+            /*
+             * Lets test if the current SKU is uniqe;
+             * if not we would like to tell the admin
+             * to change the SKU
+             * */
+
+            //! Lets make a connection to products inside DB
+            ProductDAL proDAL = new ProductDAL();
+            var uniqeSKU = proDAL.Products.FirstOrDefault(item=>item.SKU == obj.pr.SKU);
+
+            if (uniqeSKU != null)
+                return View("ProductSKUError");
+
+
+            /*
+             * Files uploading is-in the block below
+             * */
             if (obj.pic != null && obj.pic.ContentLength > 0)
             {
                 var path = "~/PicData/";
@@ -117,10 +133,6 @@ namespace Store.Controllers
                 //! Setting picURL to be used farther
                 obj.pr.PicURL = fname;
             }
-
-
-            //! Lets make a connection to products inside DB
-            ProductDAL proDAL = new ProductDAL();
 
             try
             {

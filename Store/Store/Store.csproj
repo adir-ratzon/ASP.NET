@@ -217,6 +217,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\logo.png" />
+    <Content Include="Controllers\README.txt" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="Data.edmx.sql" />
     <Content Include="favicon.ico" />
@@ -278,13 +279,14 @@
     <Content Include="Views\Admin\AdminArea.cshtml" />
     <Content Include="Views\Admin\AddProducts.cshtml" />
     <Content Include="Views\Admin\ProductSuccessfulAdded.cshtml" />
-    <Content Include="Views\Admin\ProductProcessError.cshtml" />
+    <Content Include="Views\Admin\ProductProccessError.cshtml" />
     <Content Include="Views\Admin\EditProducts.cshtml" />
     <Content Include="Views\Admin\SubmitProductsValues.cshtml" />
     <Content Include="Views\HomePage\OrderCompleted.cshtml" />
     <Content Include="Views\HomePage\OrderFaild.cshtml" />
     <Content Include="Views\Admin\ShowOrders.cshtml" />
     <Content Include="Views\Admin\Logout.cshtml" />
+    <Content Include="Views\Admin\ProductSKUError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

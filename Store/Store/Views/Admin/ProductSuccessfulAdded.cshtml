@@ -5,15 +5,8 @@
 <h2>Product Successful Added</h2>
 
 <div class="col-xs-12 hclearfix">
-    <p class="success">Product Successful Added</p>
-    <p><input type="button" id="btnRedirect" value="Back" /></p>
+    <p class="success">Product Successfully Added</p>
+    <p><a href="/Admin/AddProducts" title="Back to Products">Add more Products</a></p>
 </div>
 
 
-<script type="text/javascript">
-$(function(){
-  $("#btnRedirect").click(function(){
-    window.location.href = "@Url.Action("Logon", "Admin")";
-  });
-});
-</script>
