@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Logout";
+}
+
+<h2><i class="fa fa-cog"></i> Logged out</h2>
+
+<div class="col-xs-12 hclearfix">
+    <p class="success">You have successfully logged out</p>
+    <p><input type="button" id="btnRedirect" value="Home" /></p>
+</div>
+
+
+<script type="text/javascript">
+$(function(){
+  $("#btnRedirect").click(function(){
+    window.location.href = "@Url.Action("Index", "HomePage")";
+  });
+});
+</script>

@@ -70,6 +70,12 @@ namespace Store
             );
 
             routes.MapRoute(
+                name: "Logout",
+                url: "logout",
+                defaults: new { controller = "Admin", action = "Logout", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Logon",
                 url: "login",
                 defaults: new { controller = "Admin", action = "Admin", id = UrlParameter.Optional }

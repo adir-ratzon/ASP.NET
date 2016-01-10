@@ -56,8 +56,18 @@ namespace Store.Controllers
 
             if (testLogin != null)
             {
-                //! Lets set a cookie for successful connection
+                /*
+                 * Lets set a cookie for successful connection
+                 * expired date: today + one day.
+                 * 
+                 * Just Noting: This is not the orthodox way to work around cookies
+                 * The right way is to store the cookie with a uniqe strings inside the DB.
+                 * then each time we ask for auth, it should make an assessment if the cookie
+                 * matches the logged on users. In other words; Real-life session cookie.
+                 * 
+                 * */
                 FormsAuthentication.SetAuthCookie("cookie", true);
+                Response.Cookies["cookie"].Expires = DateTime.Now.AddDays(1);
 
                 //! Reffering to AdminArea page
                 return View("AdminArea", currentLogin); 
@@ -72,6 +82,17 @@ namespace Store.Controllers
             if (ModelState.IsValid)
                 return AdminArea(currentLogin);
             else return View("Admin", currentLogin);
+        }
+
+        public ActionResult Logout()
+        {
+            /*
+             * This function is about removing the current cookie
+             * */
+            if (Response.Cookies["cookie"] != null)
+                Response.Cookies["cookie"].Expires = DateTime.Now.AddDays(-1);
+
+            return View();
         }
 
         [Authorize]
@@ -98,11 +119,12 @@ namespace Store.Controllers
             }
 
 
-            //! Here we Inserting products to DB
+            //! Lets make a connection to products inside DB
             ProductDAL proDAL = new ProductDAL();
 
             try
             {
+                //! Lets store the product inside the Products DB instance.
                 proDAL.Products.Add(obj.pr);
                 proDAL.SaveChanges();
 
@@ -111,6 +133,7 @@ namespace Store.Controllers
             }
             catch (Exception)
             {
+                //! Case not:
                 return View("ProductProccessError");
             }
         }
@@ -147,19 +170,22 @@ namespace Store.Controllers
                 {
                     if (p.pExist != true)
                     {
+                        /*
+                         * pExist it's an Indicator about the product lifetime.
+                         * */
                         query.Quantity = p.Quantity;
                         proDAL.SaveChanges();
                     }
                     else
                     {
-                        //! pExist True means it was mark to be remove
+                        //! pExist True; means it was mark to be removed
                         query.pExist = false;
                         proDAL.Products.Remove(query);
                         proDAL.SaveChanges();
                     }
                 }
             }
-            //! Save and redirect
+            //! All-set redirecting view.
             return View("SubmitProductsValues");
         }
 
@@ -180,6 +206,9 @@ namespace Store.Controllers
 
             foreach (var order in orders)
             {
+                /*
+                 * Gathering all realtions that stands with the right conditions
+                 * */
                 var currentCustomer = customerDAL.Customers.FirstOrDefault(
                     cust=>cust.Id == order.CustomerId);
                 var currentProduct = productDAL.Products.FirstOrDefault(
