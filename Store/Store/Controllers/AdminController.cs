@@ -17,7 +17,7 @@ namespace Store.Controllers
 
         public ActionResult Admin()
         {
-            if (Request.Cookies["cookie"] != null)
+            if ((Request.Cookies["cookie"] != null) && ModelState.IsValid)
             {
                 LoginModel AuthUser = new LoginModel();
                 AuthUser.UserName = "Authorized";
@@ -105,19 +105,18 @@ namespace Store.Controllers
         [Authorize]
         public ActionResult AddProductForm(ProductUploadModel obj)
         {
+            //! Lets make a connection to products inside DB
+            ProductDAL proDAL = new ProductDAL();
+            
             /*
              * Lets test if the current SKU is uniqe;
              * if not we would like to tell the admin
              * to change the SKU
              * */
-
-            //! Lets make a connection to products inside DB
-            ProductDAL proDAL = new ProductDAL();
             var uniqeSKU = proDAL.Products.FirstOrDefault(item=>item.SKU == obj.pr.SKU);
 
             if (uniqeSKU != null)
                 return View("ProductSKUError");
-
 
             /*
              * Files uploading is-in the block below
@@ -202,16 +201,18 @@ namespace Store.Controllers
         }
 
         [Authorize]
-        public ActionResult ShowOrders(ShowOrdersModel model)
+        public ActionResult GetJsonOrders()
         {
             /*
-             * Creating the DB Connection for the orders view.
+             * This function intended to show all of the order details that has been commited.
+             * This function passes an Json presentation to caller as requested.
              **/
-
+            
             var orderDAL = new OrderDAL();
             var productDAL = new ProductDAL();
             var customerDAL = new CustomerDAL();
 
+            ShowOrdersModel model = new ShowOrdersModel();
             model.Orders = new List<DetailedOrder>();
 
             List<Order> orders = orderDAL.Order.ToList<Order>();
@@ -222,16 +223,16 @@ namespace Store.Controllers
                  * Gathering all realtions that stands with the right conditions
                  * */
                 var currentCustomer = customerDAL.Customers.FirstOrDefault(
-                    cust=>cust.Id == order.CustomerId);
+                    cust => cust.Id == order.CustomerId);
                 var currentProduct = productDAL.Products.FirstOrDefault(
-                    prod=>prod.Id == order.Product_Id);
+                    prod => prod.Id == order.Product_Id);
 
                 var viewOrder = new DetailedOrder();
-                
+
                 /**
                  * Setting the viewOrder list to be viewed.
                  **/
-                
+
                 viewOrder.Id = order.Id;
                 viewOrder.Date = order.Date;
                 viewOrder.CustomerName = currentCustomer.Name;
@@ -240,7 +241,18 @@ namespace Store.Controllers
 
                 model.Orders.Add(viewOrder);
             }
-            return View("ShowOrders", model);
+
+            return Json(model.Orders, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public ActionResult ShowOrders()
+        {
+            /*
+             * There's no stuff to be done here.
+             * the magic goes over the AJAX call at the view.
+             **/
+            return View("ShowOrders");
         }
 	}
 }

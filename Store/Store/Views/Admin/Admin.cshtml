@@ -25,7 +25,12 @@
             <p>@Html.TextBoxFor(m => m.UserName) <span class="alert">@Html.ValidationMessageFor(x => x.UserName)</span></p>
             <p>@Html.TextBoxFor(m => m.Password) <span class="alert">@Html.ValidationMessageFor(x => x.Password)</span></p>
             <p><input type="submit" value="Login" /></p>
-        }
+        
         <!-- Logon Form Ends -->
+
+        <div class="alert-danger">
+            <p>@Html.ValidationSummary()</p>
+        </div>
+        }
     </div>
 </div>

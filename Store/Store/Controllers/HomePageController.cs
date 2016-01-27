@@ -22,7 +22,7 @@ namespace Store.Controllers
              * Creating the DB Connection for the homepage products view.
              * */
             var proDAL = new ProductDAL();
-            List<Products> pl = proDAL.Products.ToList<Products>();
+            List<Products> pl = proDAL.Products.Where(item => item.Quantity >= 1).ToList<Products>();
 
             //! Creating the Model which will be used later on.
             HomepageModel homepageModel = new HomepageModel();
@@ -38,7 +38,8 @@ namespace Store.Controllers
         {
             var proDAL = new ProductDAL();
             List<Products> pl = proDAL.Products.Where(
-                entity => entity.Name.Contains(searchfor.SingleProduct.Name)).ToList<Products>();
+                entity => entity.Name.Contains(searchfor.SingleProduct.Name) &&
+                    (entity.Quantity >=1)).ToList<Products>();
 
             //! Creating the Model which will be used later on.
             searchfor = new HomepageModel();
@@ -61,7 +62,8 @@ namespace Store.Controllers
             //! Getting the products which stands with the conditions.
             List<Products>  pl = proDAL.Products.Where(
             entity => (entity.Price >= hpm.Pricing.lower) &&
-                (entity.Price <= hpm.Pricing.upper)).ToList<Products>();
+                (entity.Price <= hpm.Pricing.upper) && 
+                (entity.Quantity >= 1)).ToList<Products>();
 
             //! Creating the Model which will be used later on.
             hpm = new HomepageModel();
@@ -76,8 +78,8 @@ namespace Store.Controllers
         public ActionResult PlaceOrder(HomepageModel hpm)
         {
             /* Checking if the model isn't fake
-             * or empty. and placeing the order, and customer 
-             * as well.
+             * or empty. and placeing the order, 
+             * and setting up the customer as well.
              * */
             if (hpm.SingleProduct != null && hpm.CustomerEntity != null)
             {
@@ -93,7 +95,11 @@ namespace Store.Controllers
 
                     /**
                      * CheckIfExist variable holding the current customer data.
-                     * and take place to ensure there isn't duplicated customer data.
+                     * and take place to ensure there isn't duplicated customers.
+                     * 
+                     * We assusme that uniqe customer has uniqe Name, 
+                     * and uniqe Email Addr. on any other mismatches we'll add the
+                     * customer as a new customer record.
                      * */
                     var checkIfExistAlready = customerDAL.Customers.FirstOrDefault(
                         cust => (cust.Name.Equals(customer.Name)) &&
@@ -132,7 +138,6 @@ namespace Store.Controllers
 
                     /*
                      * Quantity handaling for the current product
-                     * 
                      **/
                     ProductDAL productDAL = new ProductDAL();
                     var currentProduct = productDAL.Products.FirstOrDefault(
@@ -152,7 +157,6 @@ namespace Store.Controllers
                     return View("OrderFaild");
                 }
             }
-            
             return View("OrderCompleted");
         }
 	}
