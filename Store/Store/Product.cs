@@ -14,6 +14,11 @@ namespace Store
     
     public partial class Product
     {
+        public Product()
+        {
+            this.Orders = new HashSet<Orders>();
+        }
+    
         public int SKU { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
@@ -21,5 +26,7 @@ namespace Store
         public string PicURL { get; set; }
         public int Id { get; set; }
         public bool pExist { get; set; }
+    
+        public virtual ICollection<Orders> Orders { get; set; }
     }
 }

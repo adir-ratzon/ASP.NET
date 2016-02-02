@@ -89,15 +89,15 @@
           <EntitySet Name="CustomerSet" EntityType="Data.Customer" />
           <EntitySet Name="ProductSet" EntityType="Data.Product" />
           <EntitySet Name="OrdersSet" EntityType="Data.Orders" />
-          <AssociationSet Name="OrdersProduct" Association="Data.OrdersProduct">
-            <End Role="Orders" EntitySet="OrdersSet" />
-            <End Role="Product" EntitySet="ProductSet" />
-          </AssociationSet>
           <AssociationSet Name="CustomerOrders" Association="Data.CustomerOrders">
             <End Role="Customer" EntitySet="CustomerSet" />
             <End Role="Orders" EntitySet="OrdersSet" />
           </AssociationSet>
           <EntitySet Name="LoginSet" EntityType="Data.Login" />
+          <AssociationSet Name="ProductOrders" Association="Data.ProductOrders">
+            <End Role="Product" EntitySet="ProductSet" />
+            <End Role="Orders" EntitySet="OrdersSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Customer">
           <Key>
@@ -120,6 +120,7 @@
           <Property Name="PicURL" Type="String" Nullable="true" />
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="pExist" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="Data.ProductOrders" FromRole="Product" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -127,14 +128,11 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Date" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Data.OrdersProduct" FromRole="Orders" ToRole="Product" />
           <NavigationProperty Name="Customer" Relationship="Data.CustomerOrders" FromRole="Orders" ToRole="Customer" />
           <Property Name="CustomerId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Product" Relationship="Data.ProductOrders" FromRole="Orders" ToRole="Product" />
+          <Property Name="Product_Id" Type="Int32" Nullable="true" />
         </EntityType>
-        <Association Name="OrdersProduct">
-          <End Type="Data.Orders" Role="Orders" Multiplicity="*" />
-          <End Type="Data.Product" Role="Product" Multiplicity="0..1" />
-        </Association>
         <Association Name="CustomerOrders">
           <End Type="Data.Customer" Role="Customer" Multiplicity="0..1" />
           <End Type="Data.Orders" Role="Orders" Multiplicity="*" />
@@ -155,6 +153,18 @@
           <Property Name="Username" Type="String" Nullable="false" />
           <Property Name="Password" Type="String" Nullable="false" />
         </EntityType>
+        <Association Name="ProductOrders">
+          <End Type="Data.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="Data.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Product_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -202,15 +212,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="OrdersProduct" TypeName="Data.OrdersProduct" StoreEntitySet="OrdersSet">
-      <EndProperty Name="Product">
-        <ScalarProperty Name="Id" ColumnName="Product_Id" />
-      </EndProperty>
-      <EndProperty Name="Orders">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Product_Id" IsNull="false" />
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

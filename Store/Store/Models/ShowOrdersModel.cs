@@ -8,6 +8,5 @@ namespace Store.Models
     public class ShowOrdersModel
     {
         public List<DetailedOrder> Orders { get; set; }
-
     }
 }

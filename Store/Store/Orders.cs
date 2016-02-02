@@ -17,8 +17,9 @@ namespace Store
         public int Id { get; set; }
         public System.DateTime Date { get; set; }
         public Nullable<int> CustomerId { get; set; }
+        public Nullable<int> Product_Id { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual Customer Customer { get; set; }
+        public virtual Product Product { get; set; }
     }
 }
